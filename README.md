@@ -51,6 +51,9 @@ pip install -r requirements.txt
 cd Bike-Rental-Data-Analysis-with-Python
 ```
 ```
+cd dashboard
+```
+```
 streamlit run dashboard.py
 ```
 
