@@ -30,7 +30,7 @@ git clone https://github.com/YusufAgriafan/Bike-Rental-Data-Analysis-with-Python
 2. Go to the project directory
 
 ```
-cd Analisis-Penyewaan-Sepeda
+cd Bike-Rental-Data-Analysis-with-Python
 ```
 
 3. Install the required Python packages by running:
@@ -48,7 +48,9 @@ pip install -r requirements.txt
 3. **Visualization**: Run the Streamlit dashboard to interactively explore the data:
 
 ```
-cd Analisis-Penyewaan-Sepeda/dashboard
+cd Bike-Rental-Data-Analysis-with-Python
+```
+```
 streamlit run dashboard.py
 ```
 
