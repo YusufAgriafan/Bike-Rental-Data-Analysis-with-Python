@@ -24,7 +24,7 @@ This project is focused on performing data analysis and visualization on a bike 
 1. Clone this repository to your local machine:
 
 ```
-git clone https://github.com/YusufAgriafan/Analisis-Penyewaan-Sepeda.git
+git clone https://github.com/YusufAgriafan/Bike-Rental-Data-Analysis-with-Python.git
 ```
 
 2. Go to the project directory
