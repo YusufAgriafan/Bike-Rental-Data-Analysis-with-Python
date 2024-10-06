@@ -13,6 +13,18 @@ all_df = pd.read_csv("data/all_data.csv")
 # Mengubah kolom 'dteday' menjadi format datetime
 all_df["dteday"] = pd.to_datetime(all_df["dteday"])
 
+@st.cache_data
+def load_data():
+    day_df = pd.read_csv('data/day.csv')
+    hour_df = pd.read_csv('data/hour.csv')
+    all_df = pd.read_csv('data/all_data.csv')
+    day_df['dteday'] = pd.to_datetime(day_df['dteday'])
+    hour_df['dteday'] = pd.to_datetime(hour_df['dteday'])
+    return day_df, hour_df
+
+day_df, hour_df = load_data()
+
+
 # Filter data
 min_date = all_df["dteday"].min()
 max_date = all_df["dteday"].max()

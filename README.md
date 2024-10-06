@@ -14,9 +14,9 @@ This project is focused on performing data analysis and visualization on a bike 
 
 ## Project Structure
 
-- `dashboard/`: This directory contains dashboard.py which is used to create dashboards of data analysis results.
 - `data/`: Directory containing the raw CSV data files.
 - `notebook.ipynb`: This file is used to perform data analysis.
+- `dashboard.py`: Used to create dashboards of data analysis results.
 - `README.md`: This documentation file.
 
 ## Installation
@@ -49,9 +49,6 @@ pip install -r requirements.txt
 
 ```
 cd Bike-Rental-Data-Analysis-with-Python
-```
-```
-cd dashboard
 ```
 ```
 streamlit run dashboard.py
