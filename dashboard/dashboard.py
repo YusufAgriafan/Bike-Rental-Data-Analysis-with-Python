@@ -8,7 +8,7 @@ from babel.numbers import format_currency
 sns.set(style='dark')
 
 # Load data
-all_df = pd.read_csv("all_data.csv")
+all_df = pd.read_csv(r'all_data.csv')
 
 # Mengubah kolom 'dteday' menjadi format datetime
 all_df["dteday"] = pd.to_datetime(all_df["dteday"])
