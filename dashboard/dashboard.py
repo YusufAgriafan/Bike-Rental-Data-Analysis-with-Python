@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas as pd 
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
@@ -19,21 +19,38 @@ max_date = all_df["dteday"].max()
 
 with st.sidebar:
     # Mengambil rentang waktu dari pengguna
-    start_date, end_date = st.date_input(
+    date_range = st.date_input(
         label='Rentang Waktu',
         min_value=min_date,
         max_value=max_date,
         value=[min_date, max_date]
     )
 
+    # Memastikan pengguna memilih dua tanggal (start_date dan end_date)
+    if isinstance(date_range, tuple) and len(date_range) == 2:
+        start_date, end_date = date_range
+    else:
+        st.error("Silakan pilih dua tanggal rentang waktu yang valid.")
+        st.stop()  # Menghentikan eksekusi jika input tidak valid
+
+# Filter data berdasarkan rentang waktu yang dipilih
 main_df = all_df[(all_df["dteday"] >= str(start_date)) & (all_df["dteday"] <= str(end_date))]
 
 # Menampilkan informasi awal
 st.header('Analisis Penyewaan Sepeda :bicyclist:')
 st.write("Data ini menganalisis penyewaan sepeda berdasarkan suhu dan hari kerja.")
 
-# Hubungan antara Suhu dan Jumlah Penyewaan Sepeda
+### Pertanyaan 1: Hubungan antara Suhu dan Jumlah Penyewaan Sepeda
 st.subheader("Hubungan antara Suhu dan Jumlah Penyewaan Sepeda")
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.scatterplot(x="temp", y="cnt", data=all_df, hue="season", palette="coolwarm")
+ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda", fontsize=16)
+ax.set_xlabel("Suhu (temp)")
+ax.set_ylabel("Jumlah Penyewaan Sepeda (cnt)")
+ax.legend(title="Musim")
+st.pyplot(fig)
+
+# Hubungan antara Suhu dan Jumlah Penyewaan Sepeda
 fig, ax = plt.subplots(figsize=(10, 5))
 sns.lineplot(data=all_df, x='dteday', y='cnt', label='Jumlah Penyewaan Sepeda', ax=ax, color='blue')
 sns.lineplot(data=all_df, x='dteday', y='temp', label='Suhu Rata-Rata', ax=ax, color='orange')
@@ -47,8 +64,28 @@ st.pyplot(fig)
 st.subheader("Tabel Hubungan Suhu dan Penyewaan Sepeda")
 st.dataframe(all_df[['dteday', 'cnt', 'temp']].head(10))
 
-# Pengaruh Hari Kerja
+# Kesimpulan Pertanyaan 1
+st.write("""
+- **Hubungan Positif**: Terdapat hubungan positif antara suhu dan jumlah penyewaan sepeda. Ketika suhu meningkat, jumlah penyewaan sepeda juga cenderung meningkat.
+- **Optimal pada Suhu Sedang**: Penyewaan sepeda lebih optimal pada suhu sedang (sekitar 0.5 hingga 0.75 dalam skala dataset). Pada suhu terlalu tinggi atau rendah, penyewaan sedikit menurun.
+""")
+
+### Pertanyaan 2: Pengaruh Hari Kerja terhadap Total Penyewaan Sepeda
+# Pengaruh Hari Kerja terhadap Penyewaan Sepeda dengan batas sumbu y
 st.subheader("Pengaruh Hari Kerja Terhadap Total Penyewaan Sepeda")
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.boxplot(x="workingday", y="cnt", data=all_df)
+ax.set_title("Pengaruh Hari Kerja terhadap Penyewaan Sepeda", fontsize=16)
+ax.set_xlabel("Hari Kerja (0 = Akhir Pekan/Hari Libur, 1 = Hari Kerja)")
+ax.set_ylabel("Jumlah Penyewaan Sepeda (cnt)")
+
+# Mengatur batas sumbu y secara manual
+ax.set_ylim(0, 1000)  # Sesuaikan nilai ini berdasarkan rentang data yang diinginkan
+
+st.pyplot(fig)
+
+
+# Pengaruh Hari Kerja
 working_day_counts = all_df.groupby('workingday')['cnt'].sum().reset_index()
 working_day_counts['workingday'] = working_day_counts['workingday'].map({0: 'Tidak Bekerja', 1: 'Hari Kerja'})
 fig, ax = plt.subplots(figsize=(7, 5))
